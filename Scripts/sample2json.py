@@ -76,20 +76,20 @@ with open(args.sampleSheet, "r") as f:
 		
 		
 		if dataset=="custom_SE" :
-		  input_dir = row[1].strip()
-		  fastq_file_path_R1 = subprocess.Popen(["find -L " + input_dir + " -name '%s'.R1.fastq.gz " % sample_name], stdout=subprocess.PIPE, shell=True)
-		  (out, err) = fastq_file_path_R1.communicate()
-		  fastq_file_path_R1 = out.decode('utf-8').strip()
-		  fastq_file_path_R2 = ""
+			input_dir = row[1].strip()
+			fastq_file_path_R1 = subprocess.Popen(["find -L " + input_dir + " -name '%s'.R1.fastq.gz " % sample_name], stdout=subprocess.PIPE, shell=True)
+			(out, err) = fastq_file_path_R1.communicate()
+			fastq_file_path_R1 = out.decode('utf-8').strip()
+			fastq_file_path_R2 = ""
       
 		elif dataset=="custom_PE" :
-		  input_dir = row[1].strip()
-		  fastq_file_path_R1 = subprocess.Popen(["find -L " + input_dir + " -name '%s'.R1.fastq.gz " % sample_name], stdout=subprocess.PIPE, shell=True)
-		  fastq_file_path_R2 = subprocess.Popen(["find -L " + input_dir + " -name '%s'.R2.fastq.gz " % sample_name], stdout=subprocess.PIPE, shell=True)
-		  (out, err) = fastq_file_path_R1.communicate()
-		  fastq_file_path_R1 = out.decode('utf-8').strip()
-		  (out, err) = fastq_file_path_R2.communicate()
-		  fastq_file_path_R2 = out.decode('utf-8').strip()
+			input_dir = row[1].strip()
+			fastq_file_path_R1 = subprocess.Popen(["find -L " + input_dir + " -name '%s'.R1.fastq.gz " % sample_name], stdout=subprocess.PIPE, shell=True)
+			fastq_file_path_R2 = subprocess.Popen(["find -L " + input_dir + " -name '%s'.R2.fastq.gz " % sample_name], stdout=subprocess.PIPE, shell=True)
+			(out, err) = fastq_file_path_R1.communicate()
+			fastq_file_path_R1 = out.decode('utf-8').strip()
+			(out, err) = fastq_file_path_R2.communicate()
+			fastq_file_path_R2 = out.decode('utf-8').strip()
       
 		elif args.chromatinIndexing:
 			fastq_name = row[1].strip()
@@ -97,26 +97,27 @@ with open(args.sampleSheet, "r") as f:
 			fastq_file_path_R1= args.outputDirectory + "/FASTQ/" + sample_name + "." + index + ".R1.fastq"
 			fastq_file_path_R2= args.outputDirectory + "/FASTQ/" + sample_name + "." + index + ".R2.fastq"
 		else:
-		  fastq_name = row[1].strip()
-		  fastq_file_path_R1=subprocess.Popen(["find -L /data/kdi_prod/dataset_all/" + dataset + "/export/user/ -name '%s'.R1.fastq.gz ! -path '*after_trimming*' " % fastq_name], stdout=subprocess.PIPE, shell=True)
-		  fastq_file_path_R2=subprocess.Popen(["find -L /data/kdi_prod/dataset_all/" + dataset + "/export/user/ -name '%s'.R2.fastq.gz ! -path '*after_trimming*' " % fastq_name], stdout=subprocess.PIPE, shell=True)
-		  (out, err) = fastq_file_path_R1.communicate()
-		  fastq_file_path_R1=out.decode('utf-8').strip()
-		  (out, err) = fastq_file_path_R2.communicate()
-		  fastq_file_path_R2=out.decode('utf-8').strip()
+			fastq_name = row[1].strip()
+			base_dir = f"/stagein/{dataset}/kdi_prod/dataset_all/{dataset}/export/user"
+			fastq_file_path_R1 = subprocess.Popen([f"find -L {base_dir} -name '{fastq_name}'.R1.fastq.gz ! -path '*after_trimming*'"],stdout=subprocess.PIPE,shell=True)
+			fastq_file_path_R2 = subprocess.Popen([f"find -L {base_dir} -name '{fastq_name}'.R2.fastq.gz ! -path '*after_trimming*'"],stdout=subprocess.PIPE,shell=True)
+			(out, err) = fastq_file_path_R1.communicate()
+			fastq_file_path_R1=out.decode('utf-8').strip()
+			(out, err) = fastq_file_path_R2.communicate()
+			fastq_file_path_R2=out.decode('utf-8').strip()
 
 		if args.chromatinIndexing:
-                        sample_name=sample_name + "." + index
-                        if sample_name in fastq_read1 :
-                                fastq_read1[sample_name].append(fastq_file_path_R1)
-                                fastq_read2[sample_name].append(fastq_file_path_R2)
-                        else:
-                                fastq_read1[sample_name] = [fastq_file_path_R1]
-                                fastq_read2[sample_name] = [fastq_file_path_R2]
+			sample_name=sample_name + "." + index
+			if sample_name in fastq_read1 :
+					fastq_read1[sample_name].append(fastq_file_path_R1)
+					fastq_read2[sample_name].append(fastq_file_path_R2)
+			else:
+					fastq_read1[sample_name] = [fastq_file_path_R1]
+					fastq_read2[sample_name] = [fastq_file_path_R2]
 		else:
 			try:
-                                fastq_read1[sample_name] = fastq_file_path_R1
-                                fastq_read2[sample_name] = fastq_file_path_R2
+				fastq_read1[sample_name] = fastq_file_path_R1
+				fastq_read2[sample_name] = fastq_file_path_R2
 			except KeyError:
 				fastq_read1[sample_name] = fastq_file_path_R1
 				
@@ -135,7 +136,7 @@ with open(args.sampleSheet, "r") as f:
 		    is_control[sample_name] = True
 		else:
 		    is_control[sample_name] = False
-		    if(sample_common_name + "_input" in str(sample_sheet_df[2])):
+			if(sample_common_name + "_input" in str(sample_sheet_df[2])):
 		        controls[sample_name] = sample_common_name + "_input"
 		        has_control = True
 		    else:
