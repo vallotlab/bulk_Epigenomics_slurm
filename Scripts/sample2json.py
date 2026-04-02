@@ -99,8 +99,10 @@ with open(args.sampleSheet, "r") as f:
 		else:
 			fastq_name = row[1].strip()
 			base_dir = f"/stagein/{dataset}/kdi_prod/dataset_all/{dataset}/export/user"
-			fastq_file_path_R1 = subprocess.Popen([f"find -L {base_dir} -name '{fastq_name}'.R1.fastq.gz ! -path '*after_trimming*'"],stdout=subprocess.PIPE,shell=True)
-			fastq_file_path_R2 = subprocess.Popen([f"find -L {base_dir} -name '{fastq_name}'.R2.fastq.gz ! -path '*after_trimming*'"],stdout=subprocess.PIPE,shell=True)
+			cmd_r1 = f"find -L '{base_dir}' -name '{fastq_name}.R1.fastq.gz' ! -path '*after_trimming*'"
+			cmd_r2 = f"find -L '{base_dir}' -name '{fastq_name}.R2.fastq.gz' ! -path '*after_trimming*'"
+			fastq_file_path_R1 = subprocess.check_output(cmd_r1, shell=True, text=True).strip()
+			fastq_file_path_R2 = subprocess.check_output(cmd_r2, shell=True, text=True).strip()
 			(out, err) = fastq_file_path_R1.communicate()
 			fastq_file_path_R1=out.decode('utf-8').strip()
 			(out, err) = fastq_file_path_R2.communicate()

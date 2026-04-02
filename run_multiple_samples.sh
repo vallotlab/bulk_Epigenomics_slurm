@@ -68,6 +68,7 @@ rm -f "$output_dir"/logs/*.log
 # python3 Scripts/sample2json.py -i $sample_sheet -o $output_dir/ -c $output_dir/species_design_configs.tsv 
 # Example: run sample2json inside container
 singularity exec \
+  --bind ${stagein_root}:/stagein \
   --bind /mnt/beegfs/home/gjouault:/mnt/beegfs/home/gjouault \
   "$image" \
   python3 "$script_dir/Scripts/sample2json.py" \
