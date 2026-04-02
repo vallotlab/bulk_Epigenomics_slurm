@@ -47,6 +47,7 @@ module load utility
 echo "Staging input data from KDI..."
 sync_stage.sh \
     -l \
+    -a \
     -s kdi_prod \
     -p "dataset_all/${number_samplesheet}/export/user" \
     -w "$stagein_root/$number_samplesheet"
@@ -89,6 +90,7 @@ sbatch \
   --output="$output_dir/logs/slurm-%j.out" \
   --error="$output_dir/logs/slurm-%j.err" \
   --wrap="singularity exec \
+    --bind /mnt/beegfs/home/gjouault:/mnt/beegfs/home/gjouault \
     --bind ${stagein_root}:/stagein \
     --bind ${output_dir}:/mnt \
     $image \
