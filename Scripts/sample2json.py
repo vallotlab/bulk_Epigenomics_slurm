@@ -124,24 +124,24 @@ with open(args.sampleSheet, "r") as f:
 		genomes[sample_name] = genome
 		
 		if (mark in broad_marks):
-		    mark_type = "broad"
+			mark_type = "broad"
 		else:
-		     mark_type = "sharp"
+			mark_type = "sharp"
 		     
 		marks_type[sample_name] = mark_type
 
 		# Check if the sample is a control
 		sample_common_name = re.sub("_" + mark, "", sample_name, flags=re.IGNORECASE)
 		if (mark == "input"):
-		    is_control[sample_name] = True
+			is_control[sample_name] = True
 		else:
-		    is_control[sample_name] = False
+			is_control[sample_name] = False
 			if(sample_common_name + "_input" in str(sample_sheet_df[2])):
-		        controls[sample_name] = sample_common_name + "_input"
-		        has_control = True
-		    else:
-		        controls[sample_name] = False
-		        has_control = False
+				controls[sample_name] = sample_common_name + "_input"
+				has_control = True
+			else:
+				controls[sample_name] = False
+				has_control = False
 		
 		design_index = (config_df.genome_assembly == genome) & (config_df.mark_type == mark_type) & (config_df.has_control == has_control)
 		bowtie2_indexes[sample_name] = str(config_df.bowtie2_index[design_index].iloc[0])
