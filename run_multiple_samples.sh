@@ -1,4 +1,7 @@
 #!/bin/bash
+set -euo pipefail
+
+
 sample_sheet=$1
 output_dir=$2
 params=$3
@@ -24,7 +27,7 @@ module load utility 2>/dev/null || true
 # Assumes:
 # - first line is a header
 # - first column contains the sample-set number
-number_samplesheet=$(awk -F '\t' 'NR==2 {print $1}' "$sample_sheet")
+number_samplesheet=$(awk -F ',' 'NR==2 {print $1}' "$sample_sheet")
 
 if [ -z "$number_samplesheet" ]; then
     echo "Error: could not extract number_samplesheet from first column of $sample_sheet"
@@ -62,7 +65,15 @@ cp -f "$sample_sheet" "$output_dir/"
 rm -f "$output_dir"/logs/*.log
 
 # Create sample configuration file
-python3 Scripts/sample2json.py -i $sample_sheet -o $output_dir/ -c $output_dir/species_design_configs.tsv 
+# python3 Scripts/sample2json.py -i $sample_sheet -o $output_dir/ -c $output_dir/species_design_configs.tsv 
+# Example: run sample2json inside container
+singularity exec \
+  --bind /mnt/beegfs/home/gjouault:/mnt/beegfs/home/gjouault \
+  "$image" \
+  python3 "$script_dir/Scripts/sample2json.py" \
+    -i "$sample_sheet" \
+    -o "$output_dir/" \
+    -c "$output_dir/species_design_configs.tsv"
 
 # Submit the pipeline with Slurm
 job_name=$(basename "$output_dir")
