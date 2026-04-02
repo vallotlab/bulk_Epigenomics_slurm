@@ -101,12 +101,12 @@ with open(args.sampleSheet, "r") as f:
 			base_dir = f"/stagein/{dataset}/kdi_prod/dataset_all/{dataset}/export/user"
 			cmd_r1 = f"find -L '{base_dir}' -name '{fastq_name}.R1.fastq.gz' ! -path '*after_trimming*'"
 			cmd_r2 = f"find -L '{base_dir}' -name '{fastq_name}.R2.fastq.gz' ! -path '*after_trimming*'"
-			fastq_file_path_R1 = subprocess.check_output(cmd_r1, shell=True, text=True).strip()
-			fastq_file_path_R2 = subprocess.check_output(cmd_r2, shell=True, text=True).strip()
-			(out, err) = fastq_file_path_R1.communicate()
-			fastq_file_path_R1=out.decode('utf-8').strip()
-			(out, err) = fastq_file_path_R2.communicate()
-			fastq_file_path_R2=out.decode('utf-8').strip()
+			fastq_file_path_R1 = subprocess.check_output(cmd_r1, shell=True).decode("utf-8").strip()
+			fastq_file_path_R2 = subprocess.check_output(cmd_r2, shell=True).decode("utf-8").strip()
+			if not fastq_file_path_R1:
+				raise FileNotFoundError("R1 FASTQ not found for {} in {}".format(fastq_name, base_dir))
+			if not fastq_file_path_R2:
+				raise FileNotFoundError("R2 FASTQ not found for {} in {}".format(fastq_name, base_dir))
 
 		if args.chromatinIndexing:
 			sample_name=sample_name + "." + index
