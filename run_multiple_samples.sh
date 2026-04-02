@@ -1,10 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
-
 sample_sheet=$1
 output_dir=$2
-params=$3
+params=${3:-}
 
 # Constants paths
 
