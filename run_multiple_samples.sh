@@ -46,7 +46,7 @@ module load utility
 
 echo "Staging input data from KDI..."
 sync_stage.sh \
-    -l \ 
+    -l \
     -s kdi_prod \
     -p "dataset_all/${number_samplesheet}/export/user" \
     -w "$stagein_root/$number_samplesheet"
