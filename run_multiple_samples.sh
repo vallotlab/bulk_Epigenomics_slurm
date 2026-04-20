@@ -100,6 +100,7 @@ sbatch \
     --bind /mnt/beegfs/home/gjouault:/mnt/beegfs/home/gjouault \
     --bind ${stagein_root}:/stagein \
     --bind ${output_dir}:/mnt \
+    --bind /mnt/beegfs/common:/mnt/beegfs/common \
     $image \
     /bin/bash -c '/mnt/run_bulk_Epigenomics.sh ${cores} ${params}'"
 
