@@ -1,7 +1,7 @@
 # Bulk Epigenomics Pipeline - from FASTQ to Count Matrices
   
   
-Snakemake pipelines to process FASTQ files from bulk epigenomics such as ChIP-seq, CUT&Tag, Chromatin Indexing. It can take as input Human samples (hg38), mouse samples (mm10) or PDX samples (hg38 for the tumor, mm10 for the mouse Tumor Micro Environment).  
+Adapted Snakemake pipelines (from the repo bulk_Epigenomics) to process FASTQ files from bulk epigenomics such as ChIP-seq, CUT&Tag, Chromatin Indexing, on the Curie Cluster Soroban (Slurm). It can take as input Human samples (hg38), mouse samples (mm10) or PDX samples (hg38 for the tumor, mm10 for the mouse Tumor Micro Environment).  
 All the tools needed are embedded in a Singularity Environment, allowing you to 
 run the pipeline in a containarized environment (see [Singularity](https://docs.sylabs.io/guides/3.0/user-guide/index.html)).
 
@@ -28,7 +28,7 @@ In order to set up the bulk Epigenomics pipeline, first download the github repo
 to a directory of your choice: 
 
 ```
-git clone git@github.com:vallotlab/bulk_Epigenomics
+git clone git@github.com:vallotlab/bulk_Epigenomics_slurm
 ```
   
   
