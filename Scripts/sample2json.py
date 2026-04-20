@@ -98,7 +98,7 @@ with open(args.sampleSheet, "r") as f:
 			fastq_file_path_R2= args.outputDirectory + "/FASTQ/" + sample_name + "." + index + ".R2.fastq"
 		else:
 			fastq_name = row[1].strip()
-			base_dir = f"/stagein/{dataset}/kdi_prod/dataset_all/{dataset}/export/user"
+			base_dir = f"/stagein/kdi_workspace/1184/02.00/data/{dataset}"
 			cmd_r1 = f"find -L '{base_dir}' -name '{fastq_name}.R1.fastq.gz' ! -path '*after_trimming*'"
 			cmd_r2 = f"find -L '{base_dir}' -name '{fastq_name}.R2.fastq.gz' ! -path '*after_trimming*'"
 			fastq_file_path_R1 = subprocess.check_output(cmd_r1, shell=True).decode("utf-8").strip()

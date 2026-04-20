@@ -44,13 +44,20 @@ mkdir -p "$stagein_root/$number_samplesheet"
 
 module load utility
 
+# echo "Staging input data from KDI..."
+# sync_stage.sh \
+#     -l \
+#     -a \
+#     -s kdi_prod \
+#     -p "dataset_all/${number_samplesheet}/export/user" \
+#     -w "$stagein_root/$number_samplesheet"
+
 echo "Staging input data from KDI..."
-sync_stage.sh \
-    -l \
-    -a \
-    -s kdi_prod \
-    -p "dataset_all/${number_samplesheet}/export/user" \
-    -w "$stagein_root/$number_samplesheet"
+kdi_stagein \
+    -K 1184/02.00 \
+    -D ${number_samplesheet} \
+    -w "$stagein_root"
+
 
 # Copy the pipeline to the output directory & delete old logs if present
 mkdir -p "$output_dir"
