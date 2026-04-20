@@ -40,7 +40,7 @@ echo "Detected number_samplesheet: $number_samplesheet"
 #   /data/kdi_prod/dataset_all/<number_samplesheet>/export/user/
 # Destination:
 #   /mnt/beegfs/home/gjouault/stagein/<number_samplesheet>/
-mkdir -p "$stagein_root/$number_samplesheet"
+mkdir -p "$stagein_root/$number_samplesheet" # To remove ?
 
 module load utility
 
@@ -53,10 +53,10 @@ module load utility
 #     -w "$stagein_root/$number_samplesheet"
 
 echo "Staging input data from KDI..."
-kdi_stagein \
-    -K 1184/02.00 \
-    -D ${number_samplesheet} \
-    -w "$stagein_root"
+# kdi_stagein \
+#     -K 1184/02.00 \
+#     -D $number_samplesheet \
+#     -w "$stagein_root"
 
 
 # Copy the pipeline to the output directory & delete old logs if present
