@@ -213,6 +213,7 @@ def get_input_bam_counting_bins(wildcards):
     return(ret)
   
 # Snakemake Rules
+
 rule all:
     input:
         COMBINATIONS,
@@ -368,7 +369,7 @@ rule peak_calling:
 		filter=$(cat {output}_peaks.tmp | sort -T 03_peaks/ -k 7 /dev/stdin  | awk '{{all[NR] = $7}} END{{print all[int(NR*0.9 - 0.5)]}}')
           	cat {output}_peaks.tmp | awk  -v f=$filter '{{if($7 > f){{print $0}}}}' > {output}_peaks.broadPeak
         fi
-	cut -f1-3 {output}_peaks.*Peak | bedtools sort -i /dev/stdin/ | bedtools merge -d {params.peak_merging_option} -i /dev/stdin > {output} 2>> {log}
+	cut -f1-3 {output}_peaks.*Peak | bedtools sort -i /dev/stdin | bedtools merge -d {params.peak_merging_option} -i /dev/stdin > {output} 2>> {log}
         fi
         """
 
